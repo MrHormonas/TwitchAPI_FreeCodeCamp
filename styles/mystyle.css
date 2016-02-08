@@ -26,11 +26,33 @@ footer{
 }
 
 .table{
-  border: 1px solid grey;
   width:70%;
   margin: auto;
 }
 
+table,
+tr{
+  border: 1.5px solid #929292 !important;
+  margin:2px;
+}
+
+th{
+  text-align: center;
+  border: 1.5px solid #ddd;
+}
+
+
+.logo{
+  text-align: center;
+}
 .search{
   float:right;
+  border: 0px!important;
+}
+
+img
+{
+  border-radius: 100%;
+  width: 50px;
+  height:50px;
 }
