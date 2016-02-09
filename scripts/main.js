@@ -1,5 +1,4 @@
-var twitchers = ["comster404", "freecodecamp", "storbeck", "terakilobyte", "habathcx","RobotCaleb","thomasballinger","noobs2ninjas","beohoff"];
-
+var twitchers = ["comster404", "freecodecamp", "storbeck", "terakilobyte", "habathcx","RobotCaleb","thomasballinger","noobs2ninjas","beohoff","brunofin","test_channel","cretetion","sheevergaming","TR7K","OgamingSC2","ESL_SC2"];
 $(document).ready(function(){
     getLines ('all');
   });
@@ -31,20 +30,23 @@ var getLines = function(opt)
   $('.list').html('');
   for(var i = 0; i < twitchers.length; i++)
   {
-    $.getJSON(url = 'https://api.twitch.tv/kraken/channels/' + twitchers[i] + '?callback=?', function(data) {
-
-      if (opt == 'all' && data.display_name === undefined) //username don't exist / account eliminated
-        $('.list').append(getrows("", data.message.split("\'")[1], "Account don't exist/eliminated", 'error'));
-      else if (opt == 'all' && data.status === null) //OFFLINE
-        $('.list').append(getrows(data.logo, data.display_name, data.status, 'offline'));
-      else if (opt == 'all' && data.status !== null) //ONLINE
-        $('.list').append(getrows(data.logo, data.display_name, data.status, 'online'));
-      else if (opt == 'on' &&  data.status !== null)
-        $('.list').append(getrows(data.logo, data.display_name, data.status, 'online'));
-      else if (opt == 'off' && data.status === null)
-        $('.list').append(getrows(data.logo, data.display_name, data.status, 'offline'));
+    url = 'https://api.twitch.tv/kraken/channels/' + twitchers[i] + '?callback=?';
+    $.when(
+      $.getJSON(url),
+      $.getJSON(url.replace('channels', 'streams'))
+    ).done(function(data, data2) {
+      console.log(data2[0]);
+      if (opt == 'all' && data[0].display_name === undefined) //username don't exist / account eliminated
+        $('.list').append(getrows("", data[0].message.split("\'")[1], "Account don't exist/eliminated", 'error'));
+      else if (opt == 'all' && data2[0].stream === null) //OFFLINE
+        $('.list').append(getrows(data[0].logo, data[0].display_name, " ", 'offline'));
+      else if (opt == 'all' && data[0].status !== null) //ONLINE
+        $('.list').append(getrows(data[0].logo, data[0].display_name, data2[0].stream.game, 'online'));
+      else if (opt == 'on' &&  data2[0].stream !== null &&  data2[0].stream !== undefined)
+        $('.list').append(getrows(data[0].logo, data[0].display_name, data2[0].stream.game, 'online'));
+      else if (opt == 'off' && data2[0].stream === null)
+        $('.list').append(getrows(data[0].logo, data[0].display_name, " ", 'offline'));
       var userList = new List('users', {valueNames: ['name']});
-
     });
   }
 };
@@ -53,9 +55,13 @@ var getrows = function(logo, name, info, st)
 {
   if (info === null)
     info = " ";
+  link = "http://www.twitch.tv/" + name;
+  if (st == 'error')
+    link = "#";
+
   str  =          "<tr class='" + st + "'>";
   str +=            getLogo(logo);
-  str +=            "<td class='name'>" + name + "</td>";
+  str +=            "<td class='name'><a href='" + link + "' target='_blank'>" + name + "</a></td>";
   str +=            "<td class='info'>" + info + "</td>";
   str +=           "</tr>";
   return str;

@@ -96,3 +96,11 @@ tr.error{
   text-align: center;
   color: #222!important;
 }
+
+a{
+  text-decoration: inherit;
+  color: inherit;
+}
+td{
+  padding:0;
+}
