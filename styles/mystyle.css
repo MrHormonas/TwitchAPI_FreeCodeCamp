@@ -88,3 +88,11 @@ tr.offline, .off.active{
   text-align: center;
   color: #222!important;
 }
+
+tr.error{
+  background-color: #D4CF90;
+  opacity: 0.6;
+  border-radius: 40px;
+  text-align: center;
+  color: #222!important;
+}

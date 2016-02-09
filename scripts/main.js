@@ -1,4 +1,4 @@
-var twitchers = ["freecodecamp", "storbeck", "terakilobyte", "habathcx","RobotCaleb","thomasballinger","noobs2ninjas","beohoff"];
+var twitchers = ["comster404", "freecodecamp", "storbeck", "terakilobyte", "habathcx","RobotCaleb","thomasballinger","noobs2ninjas","beohoff"];
 
 $(document).ready(function(){
     getLines ('all');
@@ -31,9 +31,11 @@ var getLines = function(opt)
   $('.list').html('');
   for(var i = 0; i < twitchers.length; i++)
   {
-    $.getJSON('https://api.twitch.tv/kraken/channels/' + twitchers[i] + '?callback=?', function(data) {
-      console.log(data);
-      if (opt == 'all' && data.status === null) //OFFLINE
+    $.getJSON(url = 'https://api.twitch.tv/kraken/channels/' + twitchers[i] + '?callback=?', function(data) {
+
+      if (opt == 'all' && data.display_name === undefined) //username don't exist / account eliminated
+        $('.list').append(getrows("", data.message.split("\'")[1], "Account don't exist/eliminated", 'error'));
+      else if (opt == 'all' && data.status === null) //OFFLINE
         $('.list').append(getrows(data.logo, data.display_name, data.status, 'offline'));
       else if (opt == 'all' && data.status !== null) //ONLINE
         $('.list').append(getrows(data.logo, data.display_name, data.status, 'online'));
