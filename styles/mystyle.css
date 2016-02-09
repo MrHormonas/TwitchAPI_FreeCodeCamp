@@ -25,32 +25,22 @@ footer{
   padding-top: 10px;
 }
 
-.table{
+#users{
   width:70%;
   margin: auto;
 }
 
-table,
-tr{
-  border: 1.5px solid #929292 !important;
-  margin:2px;
-}
-
-th{
-  text-align: center;
-  border: 1.5px solid #ddd;
-}
-.active{
-  color:#222;
-}
-
-
 .logo{
   text-align: center;
+  width:20%;
 }
-.search{
-  float:right;
-  border: 0px!important;
+.name{
+  text-align: center;
+  width:20%;
+}
+.info{
+  text-align: center;
+  width:60%!important;
 }
 
 img
@@ -60,6 +50,41 @@ img
   height:50px;
 }
 
-table{
+table, tbody, tr{
   margin-bottom: 50px!important;
+  width:100%!important;
+
+}
+
+
+.on{
+  background-color: #9DD18C;
+  opacity: 0.1;
+  border-radius: 40px;
+  text-align: center;
+  color: #222!important;
+}
+
+.off{
+  background-color: #D46E6E;
+  opacity: 0.1;
+  border-radius: 40px;
+  text-align: center;
+  color: #222!important;
+}
+
+tr.online, .on.active{
+  background-color: #9DD18C;
+  opacity: 0.6;
+  border-radius: 40px;
+  text-align: center;
+  color: #222!important;
+}
+
+tr.offline, .off.active{
+  background-color: #D46E6E;
+  opacity: 0.6;
+  border-radius: 40px;
+  text-align: center;
+  color: #222!important;
 }

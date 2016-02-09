@@ -13,20 +13,23 @@
     <br />
     <h1 id="title">Twitchers Status</h1> <br><br><br /><br />
 
+    <div id='users'>
+      <div style="float: left">
+        <p class='btn active on'>online</p>
+        <p class='btn active off'>offline</p>
+      </div>
 
-    <table class="table">
-      <thead><tr>
-        <th colspan ='2' class='all active'>All</th>
-        <th colspan ='2' class='on'>Online</th>
-        <th colspan ='2' class='off'>Offline</th>
-        <th class="search" colspan ='3'><input type="text" placeholder="Search"/></th>
-      </tr></thead>
-      <tbody class='tw'>
+      <div style="float: right">
+        <input class="search" placeholder="Search" />
+      </div>
+      <br /><br /><br />
+      <table>
+        <tbody class='list'>
+        </tbody>
+      </table>
+    </div>
 
-      </tbody>
-    </table>
-
-
+    <script src="http://listjs.com/no-cdn/list.js"></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js'></script>
     <script src="scripts\main.js"></script>
   </body>

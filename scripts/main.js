@@ -1,87 +1,70 @@
 var twitchers = ["freecodecamp", "storbeck", "terakilobyte", "habathcx","RobotCaleb","thomasballinger","noobs2ninjas","beohoff"];
-var str = "";
+var options = {
+  valueNames: [ 'name']
+};
+
+var userList = new List('users', options);
 
 $(document).ready(function(){
     getLines ('all');
 });
 
-$('.all').click(function()
-{
-  if( !$('.all').hasClass('active') )
-  {
-    getLines ('all');
-    $('.tw').html('');
-    $('.on').removeClass('active');
-    $('.off').removeClass('active');
-    $('.all').addClass('active');
-  }
-});
-
 $('.on').click(function(){
-  if( !$('.on').hasClass('active') )
-  {
-    getLines('on');
-    $('.tw').html('');
-    $('.all').removeClass('active');
-    $('.off').removeClass('active');
-    $('.on').addClass('active');
-  }
+  $( ".on" ).toggleClass( "active" );
+  update();
 });
-
 $('.off').click(function(){
-  if( !$('.off').hasClass('active') )
-  {
-    getLines('off');
-    $('.tw').html('');
-    $('.all').removeClass('active');
-    $('.on').removeClass('active');
-    $('.off').addClass('active');
-  }
+  $( ".off" ).toggleClass( "active" );
+  update();
 });
 
-
+var update = function(){
+  if( $('.on').hasClass('active') && $('.off').hasClass('active') )
+    getLines ('all');
+  else if( $('.off').hasClass('active') )
+    getLines ('off');
+  else if( $('.on').hasClass('active') )
+      getLines ('on');
+  else
+      getLines ('none');
+};
 
 var getLines = function(opt)
 {
+  $('.list').html('');
   for(var i = 0; i < twitchers.length; i++)
   {
     $.getJSON('https://api.twitch.tv/kraken/channels/' + twitchers[i] + '?callback=?', function(data) {
       console.log(data);
-      if (opt == 'all')
-      {
-        str  = "<tr><a href='" + data.url + "'>";
-        str += getLogo(data.logo);
-        str += "<td colspan='4' class= 'name'>" + data.display_name + "</td>";
-        if (data.status === null)
-          str += "<td colspan='1'></td><td colspan='1'>OFFLINE</td></a></tr>";
-        else
-          str += "<td colspan='1'>" +  data.status + "</td><td colspan='1'>ONLINE</td></a></tr>";
-        $('.tw').append(str);
-      }
-
+      if (opt == 'all' && data.status === null) //OFFLINE
+        $('.list').append(getrows(data.logo, data.display_name, data.status, 'offline'));
+      else if (opt == 'all' && data.status !== null) //ONLINE
+        $('.list').append(getrows(data.logo, data.display_name, data.status, 'online'));
       else if (opt == 'on' &&  data.status !== null)
-      {
-        str  = "<tr><a href='" + data.url + "'>";
-        str += getLogo(data.logo);
-        str += "<td colspan='6' class= 'name'>" + data.display_name + "</td></a></tr>";
-        $('.tw').append(str);
-      }
+        $('.list').append(getrows(data.logo, data.display_name, data.status, 'online'));
       else if (opt == 'off' && data.status === null)
-      {
-        str  = "<tr><a href='" + data.url + "'>";
-        str += getLogo(data.logo);
-        str += "<td colspan='6' class= 'name'>" + data.display_name + "</td></a></tr>";
-        $('.tw').append(str);
-      }
+        $('.list').append(getrows(data.logo, data.display_name, data.status, 'offline'));
     });
   }
+};
+
+var getrows = function(logo, name, info, st)
+{
+  if (info === null)
+    info = " ";
+  str  =          "<tr class='" + st + "'>";
+  str +=            getLogo(logo);
+  str +=            "<td class='name'>" + name + "</td>";
+  str +=            "<td class='info'>" + info + "</td>";
+  str +=           "</tr>";
+  return str;
 };
 
 var getLogo = function(lg)
 {
   if ( lg !== null)
-      return "<td colspan='1' class='logo'><img src='" + lg + "'/></td>";
+      return "<td class='logo'><img src='" + lg + "'/></td>";
   else
-      return "<td colspan='1' class='logo'><img src='https://image.freepik.com/icones-gratis/ponto-de-interrogacao_318-52837.jpg' /></td>";
+      return "<td class='logo'><img src='https://image.freepik.com/icones-gratis/ponto-de-interrogacao_318-52837.jpg' /></td>";
 
 };
