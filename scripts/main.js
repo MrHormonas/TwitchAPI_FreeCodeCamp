@@ -1,20 +1,17 @@
 var twitchers = ["freecodecamp", "storbeck", "terakilobyte", "habathcx","RobotCaleb","thomasballinger","noobs2ninjas","beohoff"];
-var options = {
-  valueNames: [ 'name']
-};
-
-var userList = new List('users', options);
 
 $(document).ready(function(){
     getLines ('all');
-});
+  });
 
 $('.on').click(function(){
   $( ".on" ).toggleClass( "active" );
+  $( ".search" ).val('');
   update();
 });
 $('.off').click(function(){
   $( ".off" ).toggleClass( "active" );
+  $( ".search" ).val('');
   update();
 });
 
@@ -44,6 +41,8 @@ var getLines = function(opt)
         $('.list').append(getrows(data.logo, data.display_name, data.status, 'online'));
       else if (opt == 'off' && data.status === null)
         $('.list').append(getrows(data.logo, data.display_name, data.status, 'offline'));
+      var userList = new List('users', {valueNames: ['name']});
+
     });
   }
 };
