@@ -46,6 +46,8 @@ var getLines = function(opt)
         $('.list').append(getrows(data[0].logo, data[0].display_name, data2[0].stream.game, 'online'));
       else if (opt == 'off' && data2[0].stream === null)
         $('.list').append(getrows(data[0].logo, data[0].display_name, " ", 'offline'));
+      else if (opt == 'none')
+        $('.list').append();
       var userList = new List('users', {valueNames: ['name']});
     });
   }
