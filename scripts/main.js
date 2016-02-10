@@ -25,6 +25,7 @@ var update = function(){
       getLines ('none');
 };
 
+var userList = '';
 var getLines = function(opt)
 {
   $('.list').html('');
@@ -37,23 +38,23 @@ var getLines = function(opt)
     ).done(function(data, data2) {
       console.log(data2[0]);
       if (opt == 'all' && data[0].display_name === undefined) //username don't exist / account eliminated
-        $('.list').append(getrows("", data[0].message.split("\'")[1], "Account don't exist/eliminated", 'error'));
+        $('.list').append(getrows("", data[0].message.split("\'")[1], "Account don't exist/eliminated", 'error', '-1'));
       else if (opt == 'all' && data2[0].stream === null) //OFFLINE
-        $('.list').append(getrows(data[0].logo, data[0].display_name, " ", 'offline'));
-      else if (opt == 'all' && data[0].status !== null) //ONLINE
-        $('.list').append(getrows(data[0].logo, data[0].display_name, data2[0].stream.game, 'online'));
+        $('.list').append(getrows(data[0].logo, data[0].display_name, " ", 'offline', '0'));
+      else if (opt == 'all' && data[0].stream !== null) //ONLINE
+        $('.list').append(getrows(data[0].logo, data[0].display_name, data2[0].stream.game, 'online', '1'));
       else if (opt == 'on' &&  data2[0].stream !== null &&  data2[0].stream !== undefined)
-        $('.list').append(getrows(data[0].logo, data[0].display_name, data2[0].stream.game, 'online'));
+        $('.list').append(getrows(data[0].logo, data[0].display_name, data2[0].stream.game, 'online', '1'));
       else if (opt == 'off' && data2[0].stream === null)
-        $('.list').append(getrows(data[0].logo, data[0].display_name, " ", 'offline'));
+        $('.list').append(getrows(data[0].logo, data[0].display_name, " ", 'offline', '0'));
       else if (opt == 'none')
         $('.list').append();
-      var userList = new List('users', {valueNames: ['name']});
+      userList = new List('users',{valueNames: ['name']});
     });
   }
 };
 
-var getrows = function(logo, name, info, st)
+var getrows = function(logo, name, info, st, order)
 {
   if (info === null)
     info = " ";
