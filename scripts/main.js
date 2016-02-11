@@ -5,12 +5,12 @@ $(document).ready(function(){
 
 $('.on').click(function(){
   $( ".on" ).toggleClass( "active" );
-  $( ".search" ).val('');
+  $( "#search" ).val('');
   update();
 });
 $('.off').click(function(){
   $( ".off" ).toggleClass( "active" );
-  $( ".search" ).val('');
+  $( "#search" ).val('');
   update();
 });
 
@@ -25,36 +25,38 @@ var update = function(){
       getLines ('none');
 };
 
-var userList = '';
 var getLines = function(opt)
 {
   $('.list').html('');
   for(var i = 0; i < twitchers.length; i++)
   {
     url = 'https://api.twitch.tv/kraken/channels/' + twitchers[i] + '?callback=?';
+    on ='';
+    off='';
+    none='';
     $.when(
       $.getJSON(url),
       $.getJSON(url.replace('channels', 'streams'))
     ).done(function(data, data2) {
       console.log(data2[0]);
       if (opt == 'all' && data[0].display_name === undefined) //username don't exist / account eliminated
-        $('.list').append(getrows("", data[0].message.split("\'")[1], "Account don't exist/eliminated", 'error', '-1'));
+        $('.list_none').append(getrows("", data[0].message.split("\'")[1], "Account don't exist/eliminated", 'error'));
       else if (opt == 'all' && data2[0].stream === null) //OFFLINE
-        $('.list').append(getrows(data[0].logo, data[0].display_name, " ", 'offline', '0'));
-      else if (opt == 'all' && data[0].stream !== null) //ONLINE
-        $('.list').append(getrows(data[0].logo, data[0].display_name, data2[0].stream.game, 'online', '1'));
+        $('.list_off').append(getrows(data[0].logo, data[0].display_name, " ", 'offline'));
+      else if (opt == 'all' && data[0].status !== null) //ONLINE
+        $('.list_on').append(getrows(data[0].logo, data[0].display_name, data2[0].stream.game, 'online'));
       else if (opt == 'on' &&  data2[0].stream !== null &&  data2[0].stream !== undefined)
-        $('.list').append(getrows(data[0].logo, data[0].display_name, data2[0].stream.game, 'online', '1'));
+        $('.list_on').append(getrows(data[0].logo, data[0].display_name, data2[0].stream.game, 'online'));
       else if (opt == 'off' && data2[0].stream === null)
-        $('.list').append(getrows(data[0].logo, data[0].display_name, " ", 'offline', '0'));
+        $('.list_off').append(getrows(data[0].logo, data[0].display_name, " ", 'offline'));
       else if (opt == 'none')
-        $('.list').append();
-      userList = new List('users',{valueNames: ['name']});
+        $('.list').append('');
     });
+    $('.list').append(on + off + none);
   }
 };
 
-var getrows = function(logo, name, info, st, order)
+var getrows = function(logo, name, info, st)
 {
   if (info === null)
     info = " ";
@@ -78,3 +80,20 @@ var getLogo = function(lg)
       return "<td class='logo'><img src='https://image.freepik.com/icones-gratis/ponto-de-interrogacao_318-52837.jpg' /></td>";
 
 };
+
+
+$('#search').keyup(function () {
+      var searchitem = $('#search').val();
+      if (searchitem === '' || searchitem === null || searchitem === undefined)           {
+          $('table tbody  tr').show();
+      }
+      else {
+          searchitem = searchitem.toUpperCase();
+          $('table tbody tr').hide();
+          $('table tbody tr').each(function () {
+              if ($(this).children('td').slice(1, 2).text().toUpperCase().indexOf(searchitem) > -1) {
+                  $(this).show();
+              }
+          });
+      }
+  });

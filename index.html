@@ -13,22 +13,24 @@
     <br />
     <h1 id="title">Twitchers Status</h1> <br><br><br /><br />
 
-    <div id='users'>
+    <div id='users' ng-app=''>
       <div style="float: left">
         <p class='btn active on'>online</p>
         <p class='btn active off'>offline</p>
       </div>
 
-        <input class="search" placeholder="Search Users" style="float: right"/>
+      <input id="search" placeholder="Search Users" style="float: right"/>
 
       <br /><br /><br />
       <table>
-        <tbody class='list'>
+        <tbody>
+          <tbody class='list_on list'></tbody>
+          <tbody class='list_off list '></tbody>
+          <tbody class='list_none list'></tbody>
         </tbody>
       </table>
     </div>
 
-    <script src="http://listjs.com/no-cdn/list.js"></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js'></script>
     <script src="scripts\main.js"></script>
   </body>

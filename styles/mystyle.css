@@ -51,12 +51,10 @@ img
 }
 
 table, tbody, tr{
-  margin-bottom: 100px!important;
+  margin-bottom: 50px!important;
   width:100%!important;
-}
 
-tr{
-border-spacing:200px;}
+}
 
 
 .on{
@@ -108,5 +106,5 @@ td{
 }
 
 input:focus{
-  color: #222;
+  color:#222;
 }
