@@ -1,0 +1,17 @@
+{
+  "name": "TwitchAPI",
+  "homepage": "https://github.com/luisfmelo/TwitchAPI",
+  "authors": [
+    "Luis Melo <luismelo7@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
